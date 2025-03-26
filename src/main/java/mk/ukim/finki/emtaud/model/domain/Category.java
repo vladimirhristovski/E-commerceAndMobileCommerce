@@ -1,4 +1,4 @@
-package mk.ukim.finki.emtaud.model;
+package mk.ukim.finki.emtaud.model.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;

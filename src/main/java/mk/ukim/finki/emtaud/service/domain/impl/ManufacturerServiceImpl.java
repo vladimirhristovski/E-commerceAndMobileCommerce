@@ -1,8 +1,8 @@
-package mk.ukim.finki.emtaud.service.impl;
+package mk.ukim.finki.emtaud.service.domain.impl;
 
-import mk.ukim.finki.emtaud.model.Manufacturer;
+import mk.ukim.finki.emtaud.model.domain.Manufacturer;
 import mk.ukim.finki.emtaud.repository.ManufacturerRepository;
-import mk.ukim.finki.emtaud.service.ManufacturerService;
+import mk.ukim.finki.emtaud.service.domain.ManufacturerService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

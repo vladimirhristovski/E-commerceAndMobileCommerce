@@ -1,6 +1,6 @@
-package mk.ukim.finki.emtaud.service;
+package mk.ukim.finki.emtaud.service.domain;
 
-import mk.ukim.finki.emtaud.model.Manufacturer;
+import mk.ukim.finki.emtaud.model.domain.Manufacturer;
 
 import java.util.List;
 import java.util.Optional;

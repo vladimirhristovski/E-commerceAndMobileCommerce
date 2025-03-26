@@ -1,11 +1,10 @@
-package mk.ukim.finki.emtaud.service.impl;
+package mk.ukim.finki.emtaud.service.domain.impl;
 
-import mk.ukim.finki.emtaud.model.Product;
-import mk.ukim.finki.emtaud.model.dto.ProductDto;
+import mk.ukim.finki.emtaud.model.domain.Product;
 import mk.ukim.finki.emtaud.repository.ProductRepository;
-import mk.ukim.finki.emtaud.service.CategoryService;
-import mk.ukim.finki.emtaud.service.ManufacturerService;
-import mk.ukim.finki.emtaud.service.ProductService;
+import mk.ukim.finki.emtaud.service.domain.CategoryService;
+import mk.ukim.finki.emtaud.service.domain.ManufacturerService;
+import mk.ukim.finki.emtaud.service.domain.ProductService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,15 +29,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Optional<Product> save(ProductDto product) {
+    public Optional<Product> save(Product product) {
         if (product.getCategory() != null &&
-                this.categoryService.findById(product.getCategory()).isPresent() &&
+                this.categoryService.findById(product.getCategory().getId()).isPresent() &&
                 product.getManufacturer() != null &&
-                this.manufacturerService.findById(product.getManufacturer()).isPresent()) {
+                this.manufacturerService.findById(product.getManufacturer().getId()).isPresent()) {
             return Optional.of(
                     this.productRepository.save(new Product(product.getName(), product.getPrice(), product.getQuantity(),
-                            this.categoryService.findById(product.getCategory()).get(),
-                            this.manufacturerService.findById(product.getManufacturer()).get()))
+                            this.categoryService.findById(product.getCategory().getId()).get(),
+                            this.manufacturerService.findById(product.getManufacturer().getId()).get()))
             );
         }
         return Optional.empty();
@@ -50,7 +49,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Optional<Product> update(Long id, ProductDto product) {
+    public Optional<Product> update(Long id, Product product) {
         return this.productRepository.findById(id).map(existingProduct -> {
             if (product.getName() != null) {
                 existingProduct.setName(product.getName());
@@ -61,11 +60,11 @@ public class ProductServiceImpl implements ProductService {
             if (product.getQuantity() != null) {
                 existingProduct.setQuantity(product.getQuantity());
             }
-            if (product.getCategory() != null && this.categoryService.findById(product.getCategory()).isPresent()) {
-                existingProduct.setCategory(this.categoryService.findById(product.getCategory()).get());
+            if (product.getCategory() != null && this.categoryService.findById(product.getCategory().getId()).isPresent()) {
+                existingProduct.setCategory(this.categoryService.findById(product.getCategory().getId()).get());
             }
-            if (product.getManufacturer() != null && this.manufacturerService.findById(product.getManufacturer()).isPresent()) {
-                existingProduct.setManufacturer(this.manufacturerService.findById(product.getManufacturer()).get());
+            if (product.getManufacturer() != null && this.manufacturerService.findById(product.getManufacturer().getId()).isPresent()) {
+                existingProduct.setManufacturer(this.manufacturerService.findById(product.getManufacturer().getId()).get());
             }
             return this.productRepository.save(existingProduct);
         });

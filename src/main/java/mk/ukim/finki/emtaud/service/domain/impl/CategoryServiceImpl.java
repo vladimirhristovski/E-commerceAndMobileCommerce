@@ -1,8 +1,8 @@
-package mk.ukim.finki.emtaud.service.impl;
+package mk.ukim.finki.emtaud.service.domain.impl;
 
-import mk.ukim.finki.emtaud.model.Category;
+import mk.ukim.finki.emtaud.model.domain.Category;
 import mk.ukim.finki.emtaud.repository.CategoryRepository;
-import mk.ukim.finki.emtaud.service.CategoryService;
+import mk.ukim.finki.emtaud.service.domain.CategoryService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
