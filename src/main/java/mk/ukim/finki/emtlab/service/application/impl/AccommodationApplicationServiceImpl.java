@@ -58,4 +58,9 @@ public class AccommodationApplicationServiceImpl implements AccommodationApplica
     public void deleteById(Long id) {
         this.accommodationService.deleteById(id);
     }
+
+    @Override
+    public Optional<DisplayAccommodationDto> setRented(Long id) {
+        return this.accommodationService.setRented(id).map(DisplayAccommodationDto::from);
+    }
 }

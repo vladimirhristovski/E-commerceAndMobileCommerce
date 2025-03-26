@@ -22,6 +22,8 @@ public class Accommodation {
 
     private Integer numRooms;
 
+    private Boolean rented;
+
     public Accommodation() {
     }
 
@@ -30,5 +32,14 @@ public class Accommodation {
         this.category = category;
         this.host = host;
         this.numRooms = numRooms;
+        this.rented = false;
+    }
+
+    public Accommodation(String name, AccommodationCategory category, Host host, Integer numRooms, Boolean rented) {
+        this.name = name;
+        this.category = category;
+        this.host = host;
+        this.numRooms = numRooms;
+        this.rented = rented;
     }
 }

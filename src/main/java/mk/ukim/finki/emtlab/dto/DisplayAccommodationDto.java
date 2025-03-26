@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public record DisplayAccommodationDto(Long id, String name, AccommodationCategory category, Long hostId,
-                                      Integer numRooms) {
+                                      Integer numRooms, Boolean rented) {
 
     public static DisplayAccommodationDto from(Accommodation accommodation) {
-        return new DisplayAccommodationDto(accommodation.getId(), accommodation.getName(), accommodation.getCategory(), accommodation.getHost().getId(), accommodation.getNumRooms());
+        return new DisplayAccommodationDto(accommodation.getId(), accommodation.getName(), accommodation.getCategory(), accommodation.getHost().getId(), accommodation.getNumRooms(), accommodation.getRented());
     }
 
     public static List<DisplayAccommodationDto> from(List<Accommodation> accommodations) {
@@ -19,7 +19,7 @@ public record DisplayAccommodationDto(Long id, String name, AccommodationCategor
     }
 
     public Accommodation toAccommodation(Host host) {
-        return new Accommodation(name, category, host, numRooms);
+        return new Accommodation(name, category, host, numRooms, rented);
     }
 
 }

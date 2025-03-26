@@ -46,6 +46,13 @@ public class AccommodationController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @PutMapping("/rent/{id}")
+    public ResponseEntity<DisplayAccommodationDto> rent(@PathVariable Long id) {
+        return this.accommodationApplicationService.setRented(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         if (this.accommodationApplicationService.findById(id).isPresent()) {

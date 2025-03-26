@@ -67,4 +67,15 @@ public class AccommodationServiceImpl implements AccommodationService {
     public void deleteById(Long id) {
         this.accommodationRepository.deleteById(id);
     }
+
+    @Override
+    public Optional<Accommodation> setRented(Long id) {
+        return this.accommodationRepository.findById(id).map(accommodation -> {
+            if (!accommodation.getRented()) {
+                accommodation.setRented(true);
+                return this.accommodationRepository.save(accommodation);
+            }
+            return accommodation;
+        });
+    }
 }

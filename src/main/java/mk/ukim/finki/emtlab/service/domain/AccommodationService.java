@@ -17,4 +17,6 @@ public interface AccommodationService {
 
     void deleteById(Long id);
 
+    Optional<Accommodation> setRented(Long id);
+
 }
