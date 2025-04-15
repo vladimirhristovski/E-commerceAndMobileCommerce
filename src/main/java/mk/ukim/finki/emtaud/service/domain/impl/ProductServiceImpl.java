@@ -1,12 +1,16 @@
 package mk.ukim.finki.emtaud.service.domain.impl;
 
+import mk.ukim.finki.emtaud.events.ProductCreatedEvent;
 import mk.ukim.finki.emtaud.model.domain.Product;
 import mk.ukim.finki.emtaud.repository.ProductRepository;
+import mk.ukim.finki.emtaud.repository.ProductsPerManufacturerViewRepository;
 import mk.ukim.finki.emtaud.service.domain.CategoryService;
 import mk.ukim.finki.emtaud.service.domain.ManufacturerService;
 import mk.ukim.finki.emtaud.service.domain.ProductService;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,11 +20,15 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final ManufacturerService manufacturerService;
     private final CategoryService categoryService;
+    private final ProductsPerManufacturerViewRepository productsPerManufacturerViewRepository;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
-    public ProductServiceImpl(ProductRepository productRepository, ManufacturerService manufacturerService, CategoryService categoryService) {
+    public ProductServiceImpl(ProductRepository productRepository, ManufacturerService manufacturerService, CategoryService categoryService, ProductsPerManufacturerViewRepository productsPerManufacturerViewRepository, ApplicationEventPublisher applicationEventPublisher) {
         this.productRepository = productRepository;
         this.manufacturerService = manufacturerService;
         this.categoryService = categoryService;
+        this.productsPerManufacturerViewRepository = productsPerManufacturerViewRepository;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     @Override
@@ -30,17 +38,23 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Optional<Product> save(Product product) {
+        Optional<Product> savedProduct = Optional.empty();
+
         if (product.getCategory() != null &&
                 this.categoryService.findById(product.getCategory().getId()).isPresent() &&
                 product.getManufacturer() != null &&
                 this.manufacturerService.findById(product.getManufacturer().getId()).isPresent()) {
-            return Optional.of(
-                    this.productRepository.save(new Product(product.getName(), product.getPrice(), product.getQuantity(),
-                            this.categoryService.findById(product.getCategory().getId()).get(),
-                            this.manufacturerService.findById(product.getManufacturer().getId()).get()))
-            );
+            savedProduct = Optional.of(this.productRepository.save(new Product(
+                    product.getName(),
+                    product.getPrice(),
+                    product.getQuantity(),
+                    this.categoryService.findById(product.getCategory().getId()).get(),
+                    this.manufacturerService.findById(product.getManufacturer().getId()).get()
+            )));
+            this.refreshMaterializedView();
+//            this.applicationEventPublisher.publishEvent(new ProductCreatedEvent(product));
         }
-        return Optional.empty();
+        return savedProduct;
     }
 
     @Override
@@ -66,12 +80,22 @@ public class ProductServiceImpl implements ProductService {
             if (product.getManufacturer() != null && this.manufacturerService.findById(product.getManufacturer().getId()).isPresent()) {
                 existingProduct.setManufacturer(this.manufacturerService.findById(product.getManufacturer().getId()).get());
             }
-            return this.productRepository.save(existingProduct);
+            Product updatedProduct = this.productRepository.save(existingProduct);
+
+            this.refreshMaterializedView();
+//            this.applicationEventPublisher.publishEvent(new ProductCreatedEvent(product));
+
+            return updatedProduct;
         });
     }
 
     @Override
     public void deleteById(Long id) {
         this.productRepository.deleteById(id);
+    }
+
+    @Override
+    public void refreshMaterializedView() {
+        this.productsPerManufacturerViewRepository.refreshMaterializedView();
     }
 }

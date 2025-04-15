@@ -26,7 +26,7 @@ public class DataInitializer {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @PostConstruct
+//    @PostConstruct
     public void init() {
 
         this.categoryRepository.save(new Category("Sports", "Sports category"));
@@ -43,6 +43,14 @@ public class DataInitializer {
                 "Vladimir",
                 "Hristovski",
                 Role.ROLE_ADMIN
+        ));
+
+        this.userRepository.save(new User(
+                "user",
+                passwordEncoder.encode("user"),
+                "user",
+                "user",
+                Role.ROLE_USER
         ));
     }
 }

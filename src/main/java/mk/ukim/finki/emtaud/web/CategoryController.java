@@ -39,7 +39,7 @@ public class CategoryController {
     @PostMapping("/add")
     public ResponseEntity<DisplayCategoryDto> save(@RequestBody CreateCategoryDto createCategoryDto) {
         return this.categoryApplicationService.save(createCategoryDto)
-                .map(category -> ResponseEntity.ok().body(category))
+                .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 

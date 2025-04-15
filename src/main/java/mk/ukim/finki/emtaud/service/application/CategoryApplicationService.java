@@ -10,7 +10,7 @@ public interface CategoryApplicationService {
 
     List<DisplayCategoryDto> findAll();
 
-    Optional<DisplayCategoryDto> save(CreateCategoryDto category);
+    Optional<DisplayCategoryDto> save(CreateCategoryDto createCategoryDto);
 
     Optional<DisplayCategoryDto> findById(Long id);
 

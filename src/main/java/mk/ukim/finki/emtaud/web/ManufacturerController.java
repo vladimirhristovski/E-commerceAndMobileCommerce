@@ -40,8 +40,8 @@ public class ManufacturerController {
     @PostMapping("/add")
     public ResponseEntity<DisplayManufacturerDto> save(@RequestBody CreateManufacturerDto createManufacturerDto) {
         return this.manufacturerApplicationService.save(createManufacturerDto)
-                .map(manufacturer -> ResponseEntity.ok().body(manufacturer))
-                .orElseGet(() -> ResponseEntity.badRequest().build());
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @Operation(summary = "Update an existing manufacturer", description = "Updates a manufacturer by ID.")
@@ -57,7 +57,7 @@ public class ManufacturerController {
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         if (this.manufacturerApplicationService.findById(id).isPresent()) {
             this.manufacturerApplicationService.deleteById(id);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.notFound().build();
         }

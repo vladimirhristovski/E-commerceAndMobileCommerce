@@ -29,8 +29,8 @@ public class ManufacturerApplicationServiceImpl implements ManufacturerApplicati
     }
 
     @Override
-    public Optional<DisplayManufacturerDto> save(CreateManufacturerDto manufacturer) {
-        return this.manufacturerService.save(manufacturer.toManufacturer()).map(DisplayManufacturerDto::from);
+    public Optional<DisplayManufacturerDto> save(CreateManufacturerDto createManufacturerDto) {
+        return this.manufacturerService.save(createManufacturerDto.toManufacturer()).map(DisplayManufacturerDto::from);
     }
 
     @Override

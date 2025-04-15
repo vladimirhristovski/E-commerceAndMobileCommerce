@@ -12,7 +12,7 @@ public interface ManufacturerApplicationService {
 
     Optional<DisplayManufacturerDto> findById(Long id);
 
-    Optional<DisplayManufacturerDto> save(CreateManufacturerDto manufacturer);
+    Optional<DisplayManufacturerDto> save(CreateManufacturerDto createManufacturerDto);
 
     Optional<DisplayManufacturerDto> update(Long id, CreateManufacturerDto manufacturer);
 
