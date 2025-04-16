@@ -1,5 +1,8 @@
 package mk.ukim.finki.emtlab.web;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import mk.ukim.finki.emtlab.dto.CreateAccommodationDto;
 import mk.ukim.finki.emtlab.dto.DisplayAccommodationDto;
@@ -20,11 +23,24 @@ public class AccommodationController {
         this.accommodationApplicationService = accommodationApplicationService;
     }
 
+    @Operation(summary = "Get all accommodations", description = "Retrieves a list of all available accommodations.")
+    @ApiResponse(responseCode = "200", description = "List retrieved successfully.")
     @GetMapping
     public List<DisplayAccommodationDto> findAll() {
         return this.accommodationApplicationService.findAll();
     }
 
+    @Operation(summary = "Get accommodation by ID", description = "Finds an accommodation by its ID.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Accommodation found successfully."
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Accommodation not found."
+            )
+    })
     @GetMapping("/{id}")
     public ResponseEntity<DisplayAccommodationDto> findById(@PathVariable Long id) {
         return this.accommodationApplicationService.findById(id)
@@ -32,6 +48,17 @@ public class AccommodationController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @Operation(summary = "Add a new accommodation", description = "Creates a new accommodation.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Accommodation created successfully."
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Accommodation not created successfully."
+            )
+    })
     @PostMapping("/add")
     public ResponseEntity<DisplayAccommodationDto> save(@RequestBody CreateAccommodationDto createAccommodationDto) {
         return this.accommodationApplicationService.save(createAccommodationDto)
@@ -39,6 +66,17 @@ public class AccommodationController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @Operation(summary = "Update an existing accommodation", description = "Updates an accommodation by ID.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Accommodation updated successfully."
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Accommodation not found."
+            )
+    })
     @PutMapping("/edit/{id}")
     public ResponseEntity<DisplayAccommodationDto> update(@PathVariable Long id, @RequestBody CreateAccommodationDto createAccommodationDto) {
         return this.accommodationApplicationService.update(id, createAccommodationDto)
@@ -46,6 +84,17 @@ public class AccommodationController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @Operation(summary = "Rent an existing non-rented accommodation", description = "Rents a non-rented accommodation by ID.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Accommodation rented successfully."
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Accommodation not found."
+            )
+    })
     @PutMapping("/rent/{id}")
     public ResponseEntity<DisplayAccommodationDto> rent(@PathVariable Long id) {
         return this.accommodationApplicationService.setRented(id)
@@ -53,6 +102,17 @@ public class AccommodationController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @Operation(summary = "Delete an accommodation", description = "Deletes an accommodation by its ID.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Accommodation deleted successfully."
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Accommodation not found."
+            )
+    })
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         if (this.accommodationApplicationService.findById(id).isPresent()) {

@@ -4,10 +4,14 @@ import jakarta.annotation.PostConstruct;
 import mk.ukim.finki.emtlab.model.domain.Accommodation;
 import mk.ukim.finki.emtlab.model.domain.Country;
 import mk.ukim.finki.emtlab.model.domain.Host;
+import mk.ukim.finki.emtlab.model.domain.User;
 import mk.ukim.finki.emtlab.model.enumerations.AccommodationCategory;
+import mk.ukim.finki.emtlab.model.enumerations.Role;
 import mk.ukim.finki.emtlab.repository.AccommodationRepository;
 import mk.ukim.finki.emtlab.repository.CountryRepository;
 import mk.ukim.finki.emtlab.repository.HostRepository;
+import mk.ukim.finki.emtlab.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,11 +20,15 @@ public class DataInitializer {
     private final AccommodationRepository accommodationRepository;
     private final CountryRepository countryRepository;
     private final HostRepository hostRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public DataInitializer(AccommodationRepository accommodationRepository, CountryRepository countryRepository, HostRepository hostRepository) {
+    public DataInitializer(AccommodationRepository accommodationRepository, CountryRepository countryRepository, HostRepository hostRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.accommodationRepository = accommodationRepository;
         this.countryRepository = countryRepository;
         this.hostRepository = hostRepository;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostConstruct
@@ -46,6 +54,21 @@ public class DataInitializer {
         this.accommodationRepository.save(accommodation1);
         this.accommodationRepository.save(accommodation2);
         this.accommodationRepository.save(accommodation3);
+
+        this.userRepository.save(new User(
+                "host",
+                passwordEncoder.encode("host"),
+                "Host",
+                "Host",
+                Role.ROLE_HOST
+        ));
+        this.userRepository.save(new User(
+                "user",
+                passwordEncoder.encode("user"),
+                "User",
+                "User",
+                Role.ROLE_USER
+        ));
 
     }
 
