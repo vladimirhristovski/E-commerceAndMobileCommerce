@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
             throw new UsernameAlreadyExistsException(username);
         }
 
-        User user = new User(username, passwordEncoder.encode(password), name, surname, role);
+        User user = new User(username, this.passwordEncoder.encode(password), name, surname, role);
         return this.userRepository.save(user);
     }
 

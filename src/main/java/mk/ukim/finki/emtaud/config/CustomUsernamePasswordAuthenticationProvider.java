@@ -31,9 +31,9 @@ public class CustomUsernamePasswordAuthenticationProvider implements Authenticat
             throw new BadCredentialsException("Invalid Credentials");
         }
 
-        UserDetails userDetails = userService.loadUserByUsername(username);
+        UserDetails userDetails = this.userService.loadUserByUsername(username);
 
-        if (!passwordEncoder.matches(password, userDetails.getPassword())) {
+        if (!this.passwordEncoder.matches(password, userDetails.getPassword())) {
             throw new BadCredentialsException("Password is incorrect");
         }
         return new UsernamePasswordAuthenticationToken(

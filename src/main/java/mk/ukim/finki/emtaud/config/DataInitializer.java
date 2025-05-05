@@ -44,7 +44,6 @@ public class DataInitializer {
                 "Hristovski",
                 Role.ROLE_ADMIN
         ));
-
         this.userRepository.save(new User(
                 "user",
                 passwordEncoder.encode("user"),
@@ -52,5 +51,6 @@ public class DataInitializer {
                 "user",
                 Role.ROLE_USER
         ));
+
     }
 }

@@ -9,7 +9,7 @@ public record CreateUserDto(String username, String password, String repeatPassw
     //TODO: add repeat password logic
 
     public User toUser() {
-        return new User(name, password, name, surname, role);
+        return new User(username, password, name, surname, role);
     }
 
 }

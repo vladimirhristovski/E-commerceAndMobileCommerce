@@ -48,15 +48,15 @@ public class UserController {
         }
     }
 
-    @Operation(summary = "User login", description = "Authenticates a user and starts a session")
+    @Operation(summary = "User login", description = "Authenticates a user and starts a session.")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "User authenticated successfully"
+                    description = "User authenticated successfully."
             ),
             @ApiResponse(
                     responseCode = "404",
-                    description = "Invalid username or password"
+                    description = "Invalid username or password."
             )
     })
     @PostMapping("/login")
