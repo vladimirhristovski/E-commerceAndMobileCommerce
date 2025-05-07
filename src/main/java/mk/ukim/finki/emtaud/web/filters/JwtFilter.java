@@ -1,4 +1,4 @@
-package mk.ukim.finki.emtaud.security;
+package mk.ukim.finki.emtaud.web.filters;
 
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
@@ -6,6 +6,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
+import mk.ukim.finki.emtaud.constants.JwtConstants;
+import mk.ukim.finki.emtaud.helpers.JwtHelper;
 import mk.ukim.finki.emtaud.model.domain.User;
 import mk.ukim.finki.emtaud.service.domain.UserService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.io.IOException;
 
@@ -22,10 +25,12 @@ public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtHelper jwtHelper;
     private final UserService userService;
+    private final HandlerExceptionResolver handlerExceptionResolver;
 
-    public JwtFilter(JwtHelper jwtHelper, UserService userService) {
+    public JwtFilter(JwtHelper jwtHelper, UserService userService, HandlerExceptionResolver handlerExceptionResolver) {
         this.jwtHelper = jwtHelper;
         this.userService = userService;
+        this.handlerExceptionResolver = handlerExceptionResolver;
     }
 
     @Override
@@ -62,6 +67,13 @@ public class JwtFilter extends OncePerRequestFilter {
             }
         } catch (JwtException jwtException) {
             // TODO: Add logic for exception handling.
+            this.handlerExceptionResolver.resolveException(
+                    request,
+                    response,
+                    null,
+                    jwtException
+            );
+            return;
         }
 
         filterChain.doFilter(request, response);

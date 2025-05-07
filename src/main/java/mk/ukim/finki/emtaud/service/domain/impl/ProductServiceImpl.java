@@ -1,6 +1,5 @@
 package mk.ukim.finki.emtaud.service.domain.impl;
 
-import mk.ukim.finki.emtaud.events.ProductCreatedEvent;
 import mk.ukim.finki.emtaud.model.domain.Product;
 import mk.ukim.finki.emtaud.repository.ProductRepository;
 import mk.ukim.finki.emtaud.repository.ProductsPerManufacturerViewRepository;
@@ -8,9 +7,10 @@ import mk.ukim.finki.emtaud.service.domain.CategoryService;
 import mk.ukim.finki.emtaud.service.domain.ManufacturerService;
 import mk.ukim.finki.emtaud.service.domain.ProductService;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -97,5 +97,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void refreshMaterializedView() {
         this.productsPerManufacturerViewRepository.refreshMaterializedView();
+    }
+
+    @Override
+    public Page<Product> findAll(Pageable pageable) {
+        return this.productRepository.findAll(pageable);
     }
 }

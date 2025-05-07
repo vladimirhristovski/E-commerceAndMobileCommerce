@@ -1,6 +1,7 @@
-package mk.ukim.finki.emtaud.security;
+package mk.ukim.finki.emtaud.config.security;
 
-import mk.ukim.finki.emtaud.config.CustomUsernamePasswordAuthenticationProvider;
+import mk.ukim.finki.emtaud.security.CustomUsernamePasswordAuthenticationProvider;
+import mk.ukim.finki.emtaud.web.filters.JwtFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -48,22 +49,24 @@ public class JwtSecurityWebConfig {
                         corsCustomizer.configurationSource(corsConfigurationSource())
                 )
                 .authorizeHttpRequests(authorizeHttpRequestsCustomizer ->
-                        authorizeHttpRequestsCustomizer
-                                .requestMatchers(
-                                        "/swagger-ui/**",
-                                        "/v3/api-docs/**",
-                                        "/api/user/register",
-                                        "/api/user/login"
-                                )
-                                .permitAll()
-                                .requestMatchers(
-                                        "/api/categories",
-                                        "/api/manufacturers",
-                                        "/api/products"
-                                )
-                                .hasAnyRole("USER", "ADMIN")
-                                .anyRequest()
-                                .hasRole("ADMIN")
+                                authorizeHttpRequestsCustomizer
+                                        .requestMatchers(
+                                                "/swagger-ui/**",
+                                                "/v3/api-docs/**",
+                                                "/api/user/register",
+                                                "/api/user/login"
+                                        )
+                                        .permitAll()
+                                        .requestMatchers(
+                                                "/api/categories",
+                                                "/api/manufacturers",
+                                                "/api/products"
+                                        )
+                                        .permitAll()
+//                                .hasAnyRole("USER", "ADMIN")
+                                        .anyRequest()
+                                        .permitAll()
+//                                .hasRole("ADMIN")
                 )
                 .sessionManagement(sessionManagementConfigurer ->
                         sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS)

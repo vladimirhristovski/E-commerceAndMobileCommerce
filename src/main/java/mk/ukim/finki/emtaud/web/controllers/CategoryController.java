@@ -1,4 +1,4 @@
-package mk.ukim.finki.emtaud.web;
+package mk.ukim.finki.emtaud.web.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

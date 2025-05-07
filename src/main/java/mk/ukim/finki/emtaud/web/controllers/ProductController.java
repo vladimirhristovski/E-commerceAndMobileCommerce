@@ -1,10 +1,12 @@
-package mk.ukim.finki.emtaud.web;
+package mk.ukim.finki.emtaud.web.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import mk.ukim.finki.emtaud.dto.CreateProductDto;
 import mk.ukim.finki.emtaud.dto.DisplayProductDto;
 import mk.ukim.finki.emtaud.service.application.ProductApplicationService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -62,4 +64,10 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("/paginated")
+    public ResponseEntity<Page<DisplayProductDto>> findAll(Pageable pageable) {
+        return ResponseEntity.ok(this.productApplicationServiceService.findAll(pageable));
+    }
+
 }

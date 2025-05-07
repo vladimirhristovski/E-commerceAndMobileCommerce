@@ -1,4 +1,4 @@
-package mk.ukim.finki.emtaud.config;
+package mk.ukim.finki.emtaud.security;
 
 
 import mk.ukim.finki.emtaud.service.domain.UserService;

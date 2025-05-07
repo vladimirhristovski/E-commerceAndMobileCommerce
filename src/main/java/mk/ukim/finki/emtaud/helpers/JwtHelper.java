@@ -1,10 +1,11 @@
-package mk.ukim.finki.emtaud.security;
+package mk.ukim.finki.emtaud.helpers;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import mk.ukim.finki.emtaud.constants.JwtConstants;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 

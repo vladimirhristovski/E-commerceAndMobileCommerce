@@ -1,5 +1,6 @@
-package mk.ukim.finki.emtaud.config;
+package mk.ukim.finki.emtaud.config.security;
 
+import mk.ukim.finki.emtaud.security.CustomUsernamePasswordAuthenticationProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;

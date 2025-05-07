@@ -8,6 +8,8 @@ import mk.ukim.finki.emtaud.service.application.ProductApplicationService;
 import mk.ukim.finki.emtaud.service.domain.CategoryService;
 import mk.ukim.finki.emtaud.service.domain.ManufacturerService;
 import mk.ukim.finki.emtaud.service.domain.ProductService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -64,5 +66,11 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
     @Override
     public void deleteById(Long id) {
         this.productService.deleteById(id);
+    }
+
+    @Override
+    public Page<DisplayProductDto> findAll(Pageable pageable) {
+        return this.productService.findAll(pageable)
+                .map(DisplayProductDto::from);
     }
 }

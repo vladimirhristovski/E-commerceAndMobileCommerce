@@ -1,6 +1,5 @@
-package mk.ukim.finki.emtaud.config;
+package mk.ukim.finki.emtaud.config.init;
 
-import jakarta.annotation.PostConstruct;
 import mk.ukim.finki.emtaud.model.domain.Category;
 import mk.ukim.finki.emtaud.model.domain.Manufacturer;
 import mk.ukim.finki.emtaud.model.domain.User;
