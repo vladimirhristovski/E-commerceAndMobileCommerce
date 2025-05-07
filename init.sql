@@ -56,7 +56,7 @@ create table shopping_cart_products
 );
 
 
-create unique index idx_cart_user_status on shopping_cart (user_username, status);
-create unique index idx_user_username_password on shop_users (username, password);
-create unique index idx_user_username on shop_users (username);
-create unique index idx_user_role on shop_users (role);
+create index idx_cart_user_status on shopping_cart (user_username, status);
+create index idx_user_username_password on shop_users (username, password);
+create index idx_user_username on shop_users (username);
+create index idx_user_role on shop_users (role);

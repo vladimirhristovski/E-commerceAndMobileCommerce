@@ -46,7 +46,14 @@ public class UserServiceImpl implements UserService {
             throw new InvalidArgumentsException();
         }
 
-        return this.userRepository.findByUsernameAndPassword(username, password).orElseThrow(InvalidArgumentsException::new);
+        User user = this.userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(username));
+
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new InvalidUsernameOrPasswordException();
+        }
+
+        return user;
     }
 
     @Override
