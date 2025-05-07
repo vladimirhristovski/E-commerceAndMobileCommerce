@@ -17,4 +17,6 @@ public interface HostService {
 
     void deleteById(Long id);
 
+    void refreshMaterializedView();
+
 }

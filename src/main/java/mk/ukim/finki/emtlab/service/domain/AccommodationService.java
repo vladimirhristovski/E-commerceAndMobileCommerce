@@ -19,4 +19,6 @@ public interface AccommodationService {
 
     Optional<Accommodation> setRented(Long id);
 
+    void refreshMaterializedView();
+
 }

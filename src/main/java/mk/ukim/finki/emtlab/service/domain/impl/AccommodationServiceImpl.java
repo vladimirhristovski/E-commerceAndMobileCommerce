@@ -2,8 +2,10 @@ package mk.ukim.finki.emtlab.service.domain.impl;
 
 import mk.ukim.finki.emtlab.model.domain.Accommodation;
 import mk.ukim.finki.emtlab.repository.AccommodationRepository;
+import mk.ukim.finki.emtlab.repository.AccommodationsPerHostViewRepository;
 import mk.ukim.finki.emtlab.service.domain.AccommodationService;
 import mk.ukim.finki.emtlab.service.domain.HostService;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,10 +16,12 @@ public class AccommodationServiceImpl implements AccommodationService {
 
     private final AccommodationRepository accommodationRepository;
     private final HostService hostService;
+    private final AccommodationsPerHostViewRepository accommodationsPerHostViewRepository;
 
-    public AccommodationServiceImpl(AccommodationRepository accommodationRepository, HostService hostService) {
+    public AccommodationServiceImpl(AccommodationRepository accommodationRepository, HostService hostService, AccommodationsPerHostViewRepository accommodationsPerHostViewRepository, ApplicationEventPublisher applicationEventPublisher) {
         this.accommodationRepository = accommodationRepository;
         this.hostService = hostService;
+        this.accommodationsPerHostViewRepository = accommodationsPerHostViewRepository;
     }
 
     @Override
@@ -77,5 +81,10 @@ public class AccommodationServiceImpl implements AccommodationService {
             }
             return accommodation;
         });
+    }
+
+    @Override
+    public void refreshMaterializedView() {
+        this.accommodationsPerHostViewRepository.refreshMaterializedView();
     }
 }

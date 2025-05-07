@@ -6,6 +6,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import mk.ukim.finki.emtlab.dto.CreateAccommodationDto;
 import mk.ukim.finki.emtlab.dto.DisplayAccommodationDto;
+import mk.ukim.finki.emtlab.model.views.AccommodationsPerHostView;
+import mk.ukim.finki.emtlab.repository.AccommodationsPerHostViewRepository;
 import mk.ukim.finki.emtlab.service.application.AccommodationApplicationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +20,11 @@ import java.util.List;
 public class AccommodationController {
 
     private final AccommodationApplicationService accommodationApplicationService;
+    private final AccommodationsPerHostViewRepository accommodationsPerHostViewRepository;
 
-    public AccommodationController(AccommodationApplicationService accommodationApplicationService) {
+    public AccommodationController(AccommodationApplicationService accommodationApplicationService, AccommodationsPerHostViewRepository accommodationsPerHostViewRepository) {
         this.accommodationApplicationService = accommodationApplicationService;
+        this.accommodationsPerHostViewRepository = accommodationsPerHostViewRepository;
     }
 
     @Operation(summary = "Get all accommodations", description = "Retrieves a list of all available accommodations.")
@@ -122,4 +126,13 @@ public class AccommodationController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @Operation(summary = "Get all accommodations per host", description = "Retrieves a list of all accommodations per host.")
+    @ApiResponse(responseCode = "200", description = "List retrieved successfully.")
+    @GetMapping("/by-host")
+    public List<AccommodationsPerHostView> findAllAccommodationsPerHost() {
+        return this.accommodationsPerHostViewRepository.findAll();
+    }
+
+
 }

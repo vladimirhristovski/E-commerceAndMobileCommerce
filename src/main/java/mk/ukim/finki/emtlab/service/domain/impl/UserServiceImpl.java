@@ -31,10 +31,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User login(String username, String password) {
-        if (!username.isEmpty() || !password.isEmpty()) {
-            return this.userRepository.findByUsernameAndPassword(username, password).orElseThrow(RuntimeException::new);
+        if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
+            throw new RuntimeException("Invalid Credentials");
         }
-        return null;
+
+        User user = this.userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(username));
+
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new RuntimeException("Password is incorrect");
+        }
+
+        return user;
     }
 
     @Override

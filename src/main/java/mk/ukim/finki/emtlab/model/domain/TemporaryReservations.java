@@ -21,7 +21,7 @@ public class TemporaryReservations {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @OneToMany
+    @ManyToMany
     private List<Accommodation> accommodations;
 
     @Enumerated(EnumType.STRING)

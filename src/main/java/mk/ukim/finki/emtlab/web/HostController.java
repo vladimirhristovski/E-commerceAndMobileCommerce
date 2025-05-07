@@ -6,6 +6,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import mk.ukim.finki.emtlab.dto.CreateHostDto;
 import mk.ukim.finki.emtlab.dto.DisplayHostDto;
+import mk.ukim.finki.emtlab.model.projections.HostProjection;
+import mk.ukim.finki.emtlab.model.views.HostsPerCountryView;
+import mk.ukim.finki.emtlab.repository.HostRepository;
+import mk.ukim.finki.emtlab.repository.HostsPerCountryViewRepository;
 import mk.ukim.finki.emtlab.service.application.HostApplicationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +22,13 @@ import java.util.List;
 public class HostController {
 
     private final HostApplicationService hostApplicationService;
+    private final HostsPerCountryViewRepository hostsPerCountryViewRepository;
+    private final HostRepository hostRepository;
 
-    public HostController(HostApplicationService hostApplicationService) {
+    public HostController(HostApplicationService hostApplicationService, HostsPerCountryViewRepository hostsPerCountryViewRepository, HostRepository hostRepository) {
         this.hostApplicationService = hostApplicationService;
+        this.hostsPerCountryViewRepository = hostsPerCountryViewRepository;
+        this.hostRepository = hostRepository;
     }
 
     @Operation(summary = "Get all hosts", description = "Retrieves a list of all available hosts.")
@@ -103,6 +111,20 @@ public class HostController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @Operation(summary = "Get all hosts per country", description = "Retrieves a list of all hosts per country.")
+    @ApiResponse(responseCode = "200", description = "List retrieved successfully.")
+    @GetMapping("/by-country")
+    public List<HostsPerCountryView> findAllHostsPerCountry() {
+        return this.hostsPerCountryViewRepository.findAll();
+    }
+
+    @Operation(summary = "Get name and surname for all hosts", description = "Retrieves a list of names and surnames of all hosts.")
+    @ApiResponse(responseCode = "200", description = "List retrieved successfully.")
+    @GetMapping("/names")
+    public List<HostProjection> findAllHostsNameAndSurname() {
+        return this.hostRepository.findAllBy();
     }
 
 }

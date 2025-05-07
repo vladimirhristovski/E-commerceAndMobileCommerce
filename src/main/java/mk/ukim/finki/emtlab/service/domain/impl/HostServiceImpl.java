@@ -1,9 +1,14 @@
 package mk.ukim.finki.emtlab.service.domain.impl;
 
+import mk.ukim.finki.emtlab.events.HostCreatedEvent;
+import mk.ukim.finki.emtlab.events.HostDeletedEvent;
+import mk.ukim.finki.emtlab.events.HostUpdatedEvent;
 import mk.ukim.finki.emtlab.model.domain.Host;
 import mk.ukim.finki.emtlab.repository.HostRepository;
+import mk.ukim.finki.emtlab.repository.HostsPerCountryViewRepository;
 import mk.ukim.finki.emtlab.service.domain.CountryService;
 import mk.ukim.finki.emtlab.service.domain.HostService;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,10 +19,14 @@ public class HostServiceImpl implements HostService {
 
     private final CountryService countryService;
     private final HostRepository hostRepository;
+    private final HostsPerCountryViewRepository hostsPerCountryViewRepository;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
-    public HostServiceImpl(CountryService countryService, HostRepository hostRepository) {
+    public HostServiceImpl(CountryService countryService, HostRepository hostRepository, HostsPerCountryViewRepository hostsPerCountryViewRepository, ApplicationEventPublisher applicationEventPublisher) {
         this.countryService = countryService;
         this.hostRepository = hostRepository;
+        this.hostsPerCountryViewRepository = hostsPerCountryViewRepository;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     @Override
@@ -27,15 +36,18 @@ public class HostServiceImpl implements HostService {
 
     @Override
     public Optional<Host> save(Host host) {
+        Optional<Host> savedHost = Optional.empty();
+
         if (host.getCountry() != null &&
                 this.countryService.findById(host.getCountry().getId()).isPresent()) {
-            return Optional.of(hostRepository.save(new Host(
+            savedHost = Optional.of(hostRepository.save(new Host(
                     host.getName(),
                     host.getSurname(),
                     this.countryService.findById(host.getCountry().getId()).get()
             )));
+            this.applicationEventPublisher.publishEvent(new HostCreatedEvent(host));
         }
-        return Optional.empty();
+        return savedHost;
     }
 
     @Override
@@ -55,12 +67,25 @@ public class HostServiceImpl implements HostService {
             if (host.getCountry() != null && this.countryService.findById(host.getCountry().getId()).isPresent()) {
                 existingHost.setCountry(this.countryService.findById(host.getCountry().getId()).get());
             }
-            return this.hostRepository.save(existingHost);
+
+            Host updatedHost = this.hostRepository.save(existingHost);
+            this.applicationEventPublisher.publishEvent(new HostUpdatedEvent(host));
+
+            return updatedHost;
         });
     }
 
     @Override
     public void deleteById(Long id) {
-        this.hostRepository.deleteById(id);
+        Host host = this.findById(id).orElse(null);
+        if (host != null) {
+            this.hostRepository.deleteById(id);
+            this.applicationEventPublisher.publishEvent(new HostDeletedEvent(host));
+        }
+    }
+
+    @Override
+    public void refreshMaterializedView() {
+        this.hostsPerCountryViewRepository.refreshMaterializedView();
     }
 }

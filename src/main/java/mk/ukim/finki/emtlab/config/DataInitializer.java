@@ -14,7 +14,7 @@ import mk.ukim.finki.emtlab.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class DataInitializer {
 
     private final AccommodationRepository accommodationRepository;
@@ -31,7 +31,7 @@ public class DataInitializer {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @PostConstruct
+//    @PostConstruct
     public void init() {
 
         Country country1 = new Country("Macedonia", "Europe");

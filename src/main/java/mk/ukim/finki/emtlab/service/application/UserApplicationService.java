@@ -1,6 +1,7 @@
 package mk.ukim.finki.emtlab.service.application;
 
 import mk.ukim.finki.emtlab.dto.DisplayUserDto;
+import mk.ukim.finki.emtlab.dto.LoginResponseDto;
 import mk.ukim.finki.emtlab.dto.LoginUserDto;
 import mk.ukim.finki.emtlab.dto.RegisterUserDto;
 
@@ -10,7 +11,7 @@ public interface UserApplicationService {
 
     Optional<DisplayUserDto> register(RegisterUserDto registerUserDto);
 
-    Optional<DisplayUserDto> login(LoginUserDto loginUserDto);
+    Optional<LoginResponseDto> login(LoginUserDto loginUserDto);
 
     Optional<DisplayUserDto> findByUsername(String username);
 
