@@ -7,7 +7,7 @@ import mk.ukim.finki.emtaud.model.domain.Product;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public record DisplayProductDto(Long id, String name, Double price, Integer quantity, Long caregoryId,
+public record DisplayProductDto(Long id, String name, Double price, Integer quantity, Long categoryId,
                                 Long manufacturerId) {
 
     public static DisplayProductDto from(Product product) {
