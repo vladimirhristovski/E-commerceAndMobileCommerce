@@ -28,9 +28,9 @@ public class DataInitializer {
 //    @PostConstruct
     public void init() {
 
-        this.categoryRepository.save(new Category("Sports", "Sports category"));
-        this.categoryRepository.save(new Category("Food", "Food category"));
-        this.categoryRepository.save(new Category("Music", "Music category"));
+        this.categoryRepository.save(new Category("Sports", "Sports categoryId"));
+        this.categoryRepository.save(new Category("Food", "Food categoryId"));
+        this.categoryRepository.save(new Category("Music", "Music categoryId"));
 
         this.manufacturerRepository.save(new Manufacturer("Nike", "USA"));
         this.manufacturerRepository.save(new Manufacturer("KFC", "USA"));

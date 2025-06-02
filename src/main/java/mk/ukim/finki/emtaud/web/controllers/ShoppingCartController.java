@@ -4,12 +4,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
 import mk.ukim.finki.emtaud.dto.ShoppingCartDto;
 import mk.ukim.finki.emtaud.model.domain.User;
 import mk.ukim.finki.emtaud.service.application.ShoppingCartApplicationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -34,8 +34,8 @@ public class ShoppingCartController {
             )
     })
     @GetMapping
-    public ResponseEntity<ShoppingCartDto> getActiveShoppingCart(HttpServletRequest req) {
-        String username = req.getRemoteUser();
+    public ResponseEntity<ShoppingCartDto> getActiveShoppingCart(@AuthenticationPrincipal User user) {
+        String username = user.getUsername();
         return this.shoppingCartApplicationService.getActiveShoppingCart(username)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

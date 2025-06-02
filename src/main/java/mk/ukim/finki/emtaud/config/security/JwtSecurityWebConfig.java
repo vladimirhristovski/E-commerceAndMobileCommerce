@@ -49,24 +49,28 @@ public class JwtSecurityWebConfig {
                         corsCustomizer.configurationSource(corsConfigurationSource())
                 )
                 .authorizeHttpRequests(authorizeHttpRequestsCustomizer ->
-                                authorizeHttpRequestsCustomizer
-                                        .requestMatchers(
-                                                "/swagger-ui/**",
-                                                "/v3/api-docs/**",
-                                                "/api/user/register",
-                                                "/api/user/login"
-                                        )
-                                        .permitAll()
-                                        .requestMatchers(
-                                                "/api/categories",
-                                                "/api/manufacturers",
-                                                "/api/products"
-                                        )
-                                        .permitAll()
-//                                .hasAnyRole("USER", "ADMIN")
-                                        .anyRequest()
-                                        .permitAll()
-//                                .hasRole("ADMIN")
+                        authorizeHttpRequestsCustomizer
+                                .requestMatchers(
+                                        "/swagger-ui/**",
+                                        "/v3/api-docs/**",
+                                        "/api/user/register",
+                                        "/api/user/login"
+                                )
+                                .permitAll()
+                                .requestMatchers(
+                                        "/api/categories",
+                                        "/api/categories/{id}",
+                                        "/api/manufacturers",
+                                        "/api/manufacturers/{id}",
+                                        "/api/products",
+                                        "/api/products/{id}",
+                                        "/api/shopping-cart",
+                                        "/api/shopping-cart/add-product/{id}"
+
+                                )
+                                .hasAnyRole("USER", "ADMIN")
+                                .anyRequest()
+                                .hasRole("ADMIN")
                 )
                 .sessionManagement(sessionManagementConfigurer ->
                         sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
