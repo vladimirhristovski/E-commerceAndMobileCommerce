@@ -16,11 +16,12 @@ import {
     Typography
 } from "@mui/material";
 import {ArrowBack, Category, Factory, FavoriteBorder, Share, ShoppingCart, Star} from "@mui/icons-material";
+import shoppingCartRepository from "../../../../repository/shoppingCartRepository.js";
 
 const ProductDetails = () => {
-    const navigate = useNavigate();
     const {id} = useParams();
     const {product, category, manufacturer} = useProductDetails(id);
+    const navigate = useNavigate();
 
     if (!product || !category || !manufacturer) {
         return (
@@ -29,6 +30,14 @@ const ProductDetails = () => {
             </Box>
         );
     }
+
+    const addToCart = () => {
+        shoppingCartRepository
+            .addToCart(id)
+            .then(() => console.log(`Successfully added product with ID ${id} to card.`))
+            .catch((error) => console.log(error));
+    };
+
 
     return (
         <Box>
@@ -92,10 +101,6 @@ const ProductDetails = () => {
                                 ${product.price}
                             </Typography>
 
-                            <Typography variant="subtitle1" sx={{mb: 3}}>
-                                {product.quantity} piece(s) available
-                            </Typography>
-
                             <Typography variant="body1" sx={{mb: 3}}>
                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi consequatur culpa
                                 doloribus, enim maiores possimus similique totam ut veniam voluptatibus. Adipisci
@@ -129,6 +134,7 @@ const ProductDetails = () => {
                                 color="primary"
                                 startIcon={<ShoppingCart/>}
                                 size="large"
+                                onClick={addToCart}
                             >
                                 Add to Cart
                             </Button>

@@ -10,6 +10,7 @@ const useProducts = () => {
     const [state, setState] = useState(initialState);
 
     const fetchProducts = useCallback(() => {
+        setState(initialState)
         productRepository
             .findAll()
             .then((response) => {
