@@ -1,6 +1,8 @@
 package mk.ukim.finki.emtlab.service.domain;
 
 import mk.ukim.finki.emtlab.model.domain.Accommodation;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,5 +22,7 @@ public interface AccommodationService {
     Optional<Accommodation> setRented(Long id);
 
     void refreshMaterializedView();
+
+    Page<Accommodation> findAll(Pageable pageable);
 
 }

@@ -1,4 +1,4 @@
-package mk.ukim.finki.emtlab.web;
+package mk.ukim.finki.emtlab.web.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -9,6 +9,8 @@ import mk.ukim.finki.emtlab.dto.DisplayAccommodationDto;
 import mk.ukim.finki.emtlab.model.views.AccommodationsPerHostView;
 import mk.ukim.finki.emtlab.repository.AccommodationsPerHostViewRepository;
 import mk.ukim.finki.emtlab.service.application.AccommodationApplicationService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -134,5 +136,11 @@ public class AccommodationController {
         return this.accommodationsPerHostViewRepository.findAll();
     }
 
+    @Operation(summary = "Pagination for accommodations", description = "Retrieves a paginated list of all accommodations.")
+    @ApiResponse(responseCode = "200", description = "List retrieved successfully.")
+    @GetMapping("/paginated")
+    public ResponseEntity<Page<DisplayAccommodationDto>> findAll(Pageable pageable) {
+        return ResponseEntity.ok(this.accommodationApplicationService.findAll(pageable));
+    }
 
 }

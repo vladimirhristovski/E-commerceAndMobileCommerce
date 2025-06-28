@@ -1,5 +1,6 @@
-package mk.ukim.finki.emtlab.config;
+package mk.ukim.finki.emtlab.config.security;
 
+import mk.ukim.finki.emtlab.security.CustomUsernamePasswordAuthenticationProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;

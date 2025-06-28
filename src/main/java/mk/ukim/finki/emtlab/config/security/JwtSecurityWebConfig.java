@@ -1,6 +1,7 @@
-package mk.ukim.finki.emtlab.security;
+package mk.ukim.finki.emtlab.config.security;
 
-import mk.ukim.finki.emtlab.config.CustomUsernamePasswordAuthenticationProvider;
+import mk.ukim.finki.emtlab.security.CustomUsernamePasswordAuthenticationProvider;
+import mk.ukim.finki.emtlab.web.filters.JwtFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -62,9 +63,11 @@ public class JwtSecurityWebConfig {
                                         "/api/countries",
                                         "/api/accommodations"
                                 )
-                                .hasAnyRole("USER", "HOST")
+                                .permitAll()
+//                                .hasAnyRole("USER", "HOST")
                                 .anyRequest()
-                                .hasRole("HOST")
+                                .permitAll()
+//                                .hasRole("HOST")
                 )
                 .sessionManagement(sessionManagementConfigurer ->
                         sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS)

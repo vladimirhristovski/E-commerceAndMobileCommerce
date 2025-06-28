@@ -1,4 +1,4 @@
-package mk.ukim.finki.emtlab.config;
+package mk.ukim.finki.emtlab.config.openapi;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;

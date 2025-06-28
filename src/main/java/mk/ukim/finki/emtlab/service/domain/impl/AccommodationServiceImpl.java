@@ -6,6 +6,8 @@ import mk.ukim.finki.emtlab.repository.AccommodationsPerHostViewRepository;
 import mk.ukim.finki.emtlab.service.domain.AccommodationService;
 import mk.ukim.finki.emtlab.service.domain.HostService;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -86,5 +88,10 @@ public class AccommodationServiceImpl implements AccommodationService {
     @Override
     public void refreshMaterializedView() {
         this.accommodationsPerHostViewRepository.refreshMaterializedView();
+    }
+
+    @Override
+    public Page<Accommodation> findAll(Pageable pageable) {
+        return this.accommodationRepository.findAll(pageable);
     }
 }

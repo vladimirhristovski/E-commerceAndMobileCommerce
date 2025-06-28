@@ -6,6 +6,8 @@ import mk.ukim.finki.emtlab.model.domain.Host;
 import mk.ukim.finki.emtlab.service.application.AccommodationApplicationService;
 import mk.ukim.finki.emtlab.service.domain.AccommodationService;
 import mk.ukim.finki.emtlab.service.domain.HostService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -62,5 +64,11 @@ public class AccommodationApplicationServiceImpl implements AccommodationApplica
     @Override
     public Optional<DisplayAccommodationDto> setRented(Long id) {
         return this.accommodationService.setRented(id).map(DisplayAccommodationDto::from);
+    }
+
+    @Override
+    public Page<DisplayAccommodationDto> findAll(Pageable pageable) {
+        return this.accommodationService.findAll(pageable)
+                .map(DisplayAccommodationDto::from);
     }
 }

@@ -1,6 +1,5 @@
-package mk.ukim.finki.emtlab.config;
+package mk.ukim.finki.emtlab.config.init;
 
-import jakarta.annotation.PostConstruct;
 import mk.ukim.finki.emtlab.model.domain.Accommodation;
 import mk.ukim.finki.emtlab.model.domain.Country;
 import mk.ukim.finki.emtlab.model.domain.Host;
@@ -12,7 +11,6 @@ import mk.ukim.finki.emtlab.repository.CountryRepository;
 import mk.ukim.finki.emtlab.repository.HostRepository;
 import mk.ukim.finki.emtlab.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 
 //@Component
 public class DataInitializer {
